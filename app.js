@@ -1,6 +1,14 @@
 const telegraf = require('telegraf');
 const axios = require('axios');
 require('dotenv').config()
+const express = require('express');
+
+const app = express();
+const port = process.env.PORT ?? 3000;
+
+app.get('*', (req, res) => {
+    res.end({'success': true});
+})
 
 const bot = new telegraf.Telegraf(process.env.TELEGRAM_BOT_KEY);
 
@@ -70,3 +78,6 @@ bot.launch();
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
+
+
+app.listen(port, () => console.log(`App listening on port ${port}`))
